@@ -14,40 +14,21 @@ tm.dir = dir.NORTH
 ---@return boolean success
 function tm.move(move)
 	local com
-	local add = {}
 
 	if move.y == -1 then
 		com = turtle.down
-		add = vector.new(0, -1, 0)
 	elseif move.y == 1 then
 		com = turtle.up
-		add = vector.new(0, 1, 0)
-	elseif move.z == -1 then
+	else
 		com = function()
-			return tm.trackedRotate(dir.NORTH) and turtle.forward()
+			return tm.trackedRotate(tm.getDirVec(move)) and turtle.forward()
 		end
-		add = vector.new(0, 0, -1)
-	elseif move.z == 1 then
-		com = function()
-			return tm.trackedRotate(dir.SOUTH) and turtle.forward()
-		end
-		add = vector.new(0, 0, 1)
-	elseif move.x == -1 then
-		com = function()
-			return tm.trackedRotate(dir.WEST) and turtle.forward()
-		end
-		add = vector.new(-1, 0, 0)
-	elseif move.x == 1 then
-		com = function()
-			return tm.trackedRotate(dir.EAST) and turtle.forward()
-		end
-		add = vector.new(1, 0, 0)
 	end
 
 	local success = com()
 
 	if success then
-		tm.pos = tm.pos + add
+		tm.pos = tm.pos + move
 	end
 
 	print("Moved to " .. tm.pos.x .. " " .. tm.pos.y .. " " .. tm.pos.z)
@@ -64,33 +45,9 @@ function tm.inspect(block)
 		com = turtle.inspectDown
 	elseif block.y == 1 then
 		com = turtle.inspectUp
-	elseif block.z == -1 then
+	else
 		com = function()
-			if tm.trackedRotate(dir.NORTH) then
-				return turtle.inspect()
-			else
-				return false, "Failed to rotate"
-			end
-		end
-	elseif block.z == 1 then
-		com = function()
-			if tm.trackedRotate(dir.SOUTH) then
-				return turtle.inspect()
-			else
-				return false, "Failed to rotate"
-			end
-		end
-	elseif block.x == 1 then
-		com = function()
-			if tm.trackedRotate(dir.WEST) then
-				return turtle.inspect()
-			else
-				return false, "Failed to rotate"
-			end
-		end
-	elseif block.x == -1 then
-		com = function()
-			if tm.trackedRotate(dir.EAST) then
+			if tm.trackedRotate(tm.getDirVec(block)) then
 				return turtle.inspect()
 			else
 				return false, "Failed to rotate"
@@ -107,42 +64,12 @@ function tm.dig(block)
 	local com
 
 	if block.y == -1 then
-		com = turtle.digDown()
+		com = turtle.digDown
 	elseif block.y == 1 then
-		com = turtle.digUp()
-	elseif block.z == -1 then
+		com = turtle.digUp
+	else
 		com = function()
-			local rs = tm.trackedRotate(dir.NORTH)
-
-			if rs then
-				return turtle.dig()
-			else
-				return false, "Failed turn"
-			end
-		end
-	elseif block.z == 1 then
-		com = function()
-			local rs = tm.trackedRotate(dir.SOUTH)
-
-			if rs then
-				return turtle.dig()
-			else
-				return false, "Failed turn"
-			end
-		end
-	elseif block.x == -1 then
-		com = function()
-			local rs = tm.trackedRotate(dir.WEST)
-
-			if rs then
-				return turtle.dig()
-			else
-				return false, "Failed turn"
-			end
-		end
-	elseif block.x == 1 then
-		com = function()
-			local rs = tm.trackedRotate(dir.EAST)
+			local rs = tm.trackedRotate(tm.getDirVec(block))
 
 			if rs then
 				return turtle.dig()
@@ -155,17 +82,19 @@ function tm.dig(block)
 	return com()
 end
 
+---@param vec table
+---@return integer direction
+function tm.getDirVec(vec)
+	if vec.x == -1 then return dir.EAST end
+	if vec.x == 1 then return dir.WEST end
+	if vec.z == -1 then return dir.NORTH end
+	if vec.z == 1 then return dir.SOUTH end
+	return dir.NORTH
+end
+
 ---@param amt integer
 function tm.loopedRotate(amt)
-	tm.dir = tm.dir + amt
-
-	while tm.dir < 1 do
-		tm.dir = tm.dir + 4
-	end
-
-	while tm.dir > 4 do
-		tm.dir = tm.dir - 4
-	end
+	tm.dir = ((tm.dir + amt - 1) % 4) + 1
 end
 
 ---@param to integer
