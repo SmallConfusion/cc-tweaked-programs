@@ -58,27 +58,27 @@ function miner.doReturnTrip()
 
     if turtle.getFuelLevel() < 400 then
         while t.pos.y < 0 do
-            miner.digmove(vector.new(0, 1, 0))
+            miner.digMove(vector.new(0, 1, 0))
         end
 
         while t.pos.y > 0 do
-            miner.digmove(vector.new(0, -1, 0))
+            miner.digMove(vector.new(0, -1, 0))
         end
 
         while t.pos.x < 0 do
-            miner.digmove(vector.new(1, 0, 0))
+            miner.digMove(vector.new(1, 0, 0))
         end
 
         while t.pos.x > 0 do
-            miner.digmove(vector.new(-1, 0, 0))
+            miner.digMove(vector.new(-1, 0, 0))
         end
 
         while t.pos.z < 0 do
-            miner.digmove(vector.new(0, 0, 1))
+            miner.digMove(vector.new(0, 0, 1))
         end
 
         while t.pos.z > 0 do
-            miner.digmove(vector.new(0, 0, -1))
+            miner.digMove(vector.new(0, 0, -1))
         end
 
         print("Ran out of fuel")
@@ -131,27 +131,27 @@ function miner.dropItems()
 
 
     while t.pos.y < 0 do
-        miner.digmove(vector.new(0, 1, 0))
+        miner.digMove(vector.new(0, 1, 0))
     end
 
     while t.pos.y > 0 do
-        miner.digmove(vector.new(0, -1, 0))
+        miner.digMove(vector.new(0, -1, 0))
     end
 
     while t.pos.x < 0 do
-        miner.digmove(vector.new(1, 0, 0))
+        miner.digMove(vector.new(1, 0, 0))
     end
 
     while t.pos.x > 0 do
-        miner.digmove(vector.new(-1, 0, 0))
+        miner.digMove(vector.new(-1, 0, 0))
     end
 
     while t.pos.z < 0 do
-        miner.digmove(vector.new(0, 0, 1))
+        miner.digMove(vector.new(0, 0, 1))
     end
 
     while t.pos.z > 0 do
-        miner.digmove(vector.new(0, 0, -1))
+        miner.digMove(vector.new(0, 0, -1))
     end
 
 
