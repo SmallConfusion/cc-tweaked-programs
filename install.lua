@@ -4,7 +4,7 @@ local wg = "wget https://raw.githubusercontent.com/SmallConfusion/cct-miner/refs
 ---@param file string
 ---@param path string
 local function dlf(file, path)
-    shell.run(wg + file + " " + path)
+    shell.run(wg .. file .. " " .. path)
 end
 
 dlf("init.lua", "miner/init.lua")
