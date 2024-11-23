@@ -115,15 +115,16 @@ function miner.blockMatch(block)
         block.name:find("diamond") or
         block.name:find("coal") or
         block.name:find("redstone") or
-        block.name:find("iron")
+        block.name:find("iron") or
+        block.name:find("runic_")
     )
 end
+
 
 ---@param return boolean
 function miner.isInventoryFull()
     return turtle.getItemCount(16) ~= 0
 end
-
 
 
 function miner.dropItems()
