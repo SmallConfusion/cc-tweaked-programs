@@ -36,12 +36,12 @@ function tm.move(move)
 		com = function()
 			return tm.trackedRotate(dir.WEST) and turtle.forward()
 		end
-		add = vector.new(1, 0, 0)
+		add = vector.new(-1, 0, 0)
 	elseif move.x == 1 then
 		com = function()
 			return tm.trackedRotate(dir.EAST) and turtle.forward()
 		end
-		add = vector.new(-1, 0, 0)
+		add = vector.new(1, 0, 0)
 	end
 
 	local success = com()
