@@ -1,4 +1,4 @@
-local t = require("tracked_movement")
+local t = require("miner.tracked_movement")
 
 local miner = {}
 
