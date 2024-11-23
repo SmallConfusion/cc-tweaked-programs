@@ -31,13 +31,11 @@ function tm.move(move)
         tm.pos = tm.pos + move
     end
 
-    print("Moved to " .. tm.pos.x .. " " .. tm.pos.y .. " " .. tm.pos.z)
-
     return success
 end
 
 ---@param block table
----@return boolean success, boolean has_block, table | string blockinfo
+---@return boolean success boolean has_block table | string blockinfo
 function tm.inspect(block)
     local com
 
