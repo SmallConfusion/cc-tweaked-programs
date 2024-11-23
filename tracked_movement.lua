@@ -7,10 +7,8 @@ local dir = {
 	WEST = 4
 }
 
-function tm.init()
-	tm.pos = vector.new(0, 0, 0)
-	tm.dir = dir.NORTH
-end
+tm.pos = vector.new(0, 0, 0)
+tm.dir = dir.NORTH
 
 ---@param move table
 ---@return boolean success
