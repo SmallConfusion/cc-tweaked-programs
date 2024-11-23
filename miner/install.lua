@@ -1,4 +1,4 @@
-local wg = "wget https://raw.githubusercontent.com/SmallConfusion/cct-miner/refs/heads/main/miner"
+local wg = "wget https://raw.githubusercontent.com/SmallConfusion/cct-miner/refs/heads/main/miner/"
 
 --- download file from github
 ---@param file string
