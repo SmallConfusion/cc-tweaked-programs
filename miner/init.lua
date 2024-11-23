@@ -164,7 +164,7 @@ function miner.digMove(dir)
 
     repeat
         t.dig(dir)
-        _, has_block, _ = t.inspect(dir)
+        _, has_block, block = t.inspect(dir)
     until not has_block or block.tags["minecraft:replaceable"]
 
     t.move(dir)

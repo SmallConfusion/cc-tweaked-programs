@@ -132,6 +132,7 @@ function tm.trackedRotate(to)
             turnAmt = turnAmt + 1
             tm.loopedRotate(-1)
         else
+            print("Rotate failed??")
             return false
         end
     end
