@@ -10,3 +10,4 @@ end
 
 dlf("init.lua", "miner/init.lua")
 dlf("tracked_movement.lua", "miner/tracked_movement.lua")
+dlf("mine.lua", "mine.lua")
