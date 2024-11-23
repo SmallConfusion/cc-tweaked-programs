@@ -157,7 +157,15 @@ end
 
 ---@param amt integer
 function tm.loopedRotate(amt)
-	tm.dir = (tm.dir + amt) % 4
+	tm.dir = tm.dir + amt
+
+	while tm.dir < 1 do
+		tm.dir = tm.dir + 4
+	end
+
+	while tm.dir > 4 do
+		tm.dir = tm.dir - 4
+	end
 end
 
 ---@param to integer
