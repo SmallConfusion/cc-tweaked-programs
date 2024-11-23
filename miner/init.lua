@@ -116,7 +116,9 @@ function miner.blockMatch(block)
         block.name:find("coal") or
         block.name:find("redstone") or
         block.name:find("iron") or
-        block.name:find("runic_")
+        block.name:find("gold") or
+        block.name:find("runic_") or
+        block.name:find("acient_debris")
     )
 end
 
