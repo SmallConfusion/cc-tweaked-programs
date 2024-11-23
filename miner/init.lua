@@ -10,7 +10,7 @@ function miner.mine()
             miner.tunnel(vector.new(0, 0, -1))
         end
 
-        for x = 1, 5 do
+        for x = 1, 4 do
             miner.tunnel(vector.new(-1, 0, 0))
         end
 
@@ -18,7 +18,7 @@ function miner.mine()
             miner.tunnel(vector.new(0, 0, 1))
         end
 
-        for x = 1, 5 do
+        for x = 1, 4 do
             miner.tunnel(vector.new(-1, 0, 0))
         end
     end
