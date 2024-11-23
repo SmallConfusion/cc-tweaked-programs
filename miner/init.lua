@@ -28,9 +28,7 @@ end
 function miner.tunnel(dir)
     miner.digMove(dir)
 
-    if miner.isInventoryFull() then
-        miner.dropItems()
-    end
+    miner.doReturnTrip()
 
     miner.runWithAllDirs(miner.mineVein, -dir)
 end
@@ -45,13 +43,46 @@ function miner.mineVein(dir)
     if miner.blockMatch(block) then
         miner.digMove(dir)
 
-        if miner.isInventoryFull() then
-            miner.dropItems()
-        end
+        miner.doReturnTrip()
 
         miner.runWithAllDirs(miner.mineVein, -dir)
 
         t.move(-dir)
+    end
+end
+
+function miner.doReturnTrip()
+    if miner.isInventoryFull() then
+        miner.dropItems()
+    end
+
+    if turtle.getFuelLevel() < 400 then
+        while t.pos.y < 0 do
+            miner.digmove(vector.new(0, 1, 0))
+        end
+
+        while t.pos.y > 0 do
+            miner.digmove(vector.new(0, -1, 0))
+        end
+
+        while t.pos.x < 0 do
+            miner.digmove(vector.new(1, 0, 0))
+        end
+
+        while t.pos.x > 0 do
+            miner.digmove(vector.new(-1, 0, 0))
+        end
+
+        while t.pos.z < 0 do
+            miner.digmove(vector.new(0, 0, 1))
+        end
+
+        while t.pos.z > 0 do
+            miner.digmove(vector.new(0, 0, -1))
+        end
+
+        print("Ran out of fuel")
+        os.exit()
     end
 end
 
@@ -100,27 +131,27 @@ function miner.dropItems()
 
 
     while t.pos.y < 0 do
-        miner.digMove(vector.new(0, 1, 0))
+        miner.digmove(vector.new(0, 1, 0))
     end
 
     while t.pos.y > 0 do
-        miner.digMove(vector.new(0, -1, 0))
+        miner.digmove(vector.new(0, -1, 0))
     end
 
     while t.pos.x < 0 do
-        miner.digMove(vector.new(1, 0, 0))
+        miner.digmove(vector.new(1, 0, 0))
     end
 
     while t.pos.x > 0 do
-        miner.digMove(vector.new(-1, 0, 0))
+        miner.digmove(vector.new(-1, 0, 0))
     end
 
     while t.pos.z < 0 do
-        miner.digMove(vector.new(0, 0, 1))
+        miner.digmove(vector.new(0, 0, 1))
     end
 
     while t.pos.z > 0 do
-        miner.digMove(vector.new(0, 0, -1))
+        miner.digmove(vector.new(0, 0, -1))
     end
 
 
