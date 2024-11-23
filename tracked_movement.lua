@@ -19,10 +19,10 @@ function tm.move(move)
 	local add = {}
 
 	if move.y == -1 then
-		com = turtle.down()
+		com = turtle.down
 		add = vector.new(0, -1, 0)
 	elseif move.y == 1 then
-		com = turtle.up()
+		com = turtle.up
 		add = vector.new(0, 1, 0)
 	elseif move.z == -1 then
 		com = function()
@@ -51,6 +51,8 @@ function tm.move(move)
 	if success then
 		tm.pos = tm.pos + add
 	end
+
+	print("Moved to " .. tm.pos.x .. " " .. tm.pos.y .. " " .. tm.pos.z)
 
 	return success
 end
@@ -155,12 +157,12 @@ function tm.dig(block)
 	return com()
 end
 
----@param amt number
+---@param amt integer
 function tm.loopedRotate(amt)
 	tm.dir = (tm.dir + amt) % 4
 end
 
----@param to number
+---@param to integer
 function tm.trackedRotate(to)
 	if to < tm.dir then
 		to = to + 4
