@@ -1,4 +1,4 @@
-local wg = "wget https://raw.githubusercontent.com/SmallConfusion/cct-miner/refs/heads/main/storage"
+local wg = "wget https://raw.githubusercontent.com/SmallConfusion/cc-tweaked-programs/refs/heads/main/storage/"
 
 --- download file from github
 ---@param file string
@@ -10,3 +10,5 @@ end
 
 dlf("init.lua", "storage/init.lua")
 dlf("backend.lua", "storage/backend.lua")
+dlf("frontend.lua", "storage/frontend.lua")
+dlf("startup.lua", "startup.lua")
