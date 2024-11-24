@@ -24,7 +24,10 @@ function f.get()
         count = tonumber(com[2])
     end
 
-    b.retrieveItems(b.matchItemName(name), count)
+    local got = b.retrieveItems(b.matchItemName(name), count)
+
+    term.setCursorPos(1, 2)
+    term.write(got.." items got")
 end
 
 function f.search()

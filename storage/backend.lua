@@ -51,7 +51,12 @@ function s.storeItems(fromSlot, from)
     end
 end
 
+---@param itemMatch function
+---@param count integer
+---@return integer done
 function s.retrieveItems(itemMatch, count)
+    local total = 0
+
     for _, chest in pairs(s.heap) do
         for i, item in pairs(chest.list()) do
             if itemMatch(item) then
@@ -61,10 +66,11 @@ function s.retrieveItems(itemMatch, count)
                 while not all_transferred do
                     local ic = item.count
                     local transferred = s.safeCall(chest.pushItems, toName, i, count)
+                    total = total + transferred
                     count = count - transferred
 
                     if count <= 0 then
-                        return
+                        return total
                     end
 
                     all_transferred = ic == transferred
@@ -76,6 +82,8 @@ function s.retrieveItems(itemMatch, count)
             end
         end
     end
+
+    return total
 end
 
 function s.list()
