@@ -30,9 +30,9 @@ function miner.tunnel(dir)
 
     miner.doReturnTrip()
 
+---@diagnostic disable-next-line: param-type-mismatch
     miner.runWithAllDirs(miner.mineVein, -dir)
 end
-
 
 ---@param dir table
 function miner.mineVein(dir)
@@ -40,13 +40,16 @@ function miner.mineVein(dir)
 
     if not success then print(block) end
 
+---@diagnostic disable-next-line: param-type-mismatch
     if miner.blockMatch(block) then
         miner.digMove(dir)
 
         miner.doReturnTrip()
 
+---@diagnostic disable-next-line: param-type-mismatch
         miner.runWithAllDirs(miner.mineVein, -dir)
 
+---@diagnostic disable-next-line: param-type-mismatch
         t.move(-dir)
     end
 end
@@ -86,13 +89,12 @@ function miner.doReturnTrip()
     end
 end
 
-
 ---@param fn function
 ---@param ndir table
 function miner.runWithAllDirs(fn, ndir)
-    function runWith(dir)
+    local function runWith(dir)
         -- if ndir ~= dir then
-            fn(dir)
+        fn(dir)
         -- end
     end
 
@@ -105,9 +107,8 @@ function miner.runWithAllDirs(fn, ndir)
     runWith(vector.new(1, 0, 0))
 end
 
-
 ---@param block table | nil
----@return boolean Is desirable block
+---@return boolean | nil
 function miner.blockMatch(block)
     return block and block.name and (
         block.name:find("_ore") or
@@ -122,12 +123,10 @@ function miner.blockMatch(block)
     )
 end
 
-
----@param return boolean
+---@return boolean
 function miner.isInventoryFull()
     return turtle.getItemCount(16) ~= 0
 end
-
 
 function miner.dropItems()
     local pos = t.pos
@@ -193,6 +192,7 @@ function miner.dropItems()
     end
 end
 
+---@param dir table
 function miner.digMove(dir)
     local _, has_block, block = t.inspect(dir)
 

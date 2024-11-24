@@ -1,8 +1,13 @@
 local b = require("storage.backend")
 local f = {}
 
+---@diagnostic disable-next-line: undefined-field
+f.lastInput = os.epoch("utc")
+
 function f.run()
     term.clear()
+    term.setCursorPos(1, 1)
+    print("Enter a key to start. Press g to get, press s to search.")
 
     while true do
         local _, key, _ = f.getKey()
@@ -11,36 +16,47 @@ function f.run()
         term.setCursorPos(1, 1)
         print("Enter a key to start. Press g to get, press s to search.")
 
+        ---@diagnostic disable-next-line: undefined-field
+        f.lastInput = os.epoch("utc")
+
         if key == keys.g then
             f.get()
         elseif key == keys.s then
             f.search()
+        elseif key == keys.r then
+            print("REFRESHING")
+            b.refreshCache()
+            print("DONE")
         end
     end
 end
 
 function f.get()
     local com = f.split(f.getCommand("Get: "))
-
     local name = com[1]
-
     local count = 64
 
     if com[2] then
-        count = tonumber(com[2])
+        local enteredCount = tonumber(com[2])
+
+        if enteredCount then
+            count = enteredCount
+        end
     end
 
-    local got = b.retrieveItems(itemMatch, count)
+    local got = b.retrieveItems(f.itemMatch(name), count)
 
     term.setCursorPos(1, 2)
-    term.write(got.." items got")
+    term.write(got .. " items got")
 end
 
-function itemMatch(item)
-    return item and item.name and
-            (item.name == name or f.split(item.name, ":")[2] == name)
+---@param itemName string
+function f.itemMatch(itemName)
+    return function(item)
+        return item and item.name and
+            (item.name == itemName or f.split(item.name, ":")[2] == itemName)
+    end
 end
-
 
 function f.search()
     local list, com
@@ -54,7 +70,7 @@ function f.search()
 
     for name, count in pairs(list) do
         if name:find(com) then
-            print(name.." "..count)
+            print(name .. " " .. count)
         end
     end
 end
@@ -98,15 +114,12 @@ function f.getCommand(commandName)
 end
 
 function f.getKey()
+    ---@diagnostic disable-next-line: undefined-field
     return os.pullEvent("key")
 end
 
-function f.cancel()
-
-end
-
 ---@param s string
----@param delim string
+---@param delim string | nil
 ---@return table
 function f.split(s, delim)
     if not delim then
