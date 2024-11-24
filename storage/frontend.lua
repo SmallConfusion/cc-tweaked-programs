@@ -19,11 +19,39 @@ function f.get()
     term.setCursorPos(1, 1)
     term.write("Get: ")
 
-    local _, key, _
+    local _, key, _ = f.getKey()
+    local getName = ""
+    local getCount = ""
+    local gettingCount = false
 
     while key ~= keys.enter do
-        term.write(keys.getName(key))
+        local keyName = keys.getName(key)
+
+        if #keyName == 1 then
+            os.write(keyName)
+
+            if not gettingCount then
+                getName[#getName + 1] = keyName
+            else
+                getCount[#getCount + 1] = keyName
+            end
+        end
+
+        if key == keys.space then
+            os.write(" ")
+            gettingCount = true
+        end
+
+        _, key, _ = f.getKey()
     end
+
+    if #getCount > 0 then
+        getCount = tonumber(getCount)
+    else
+        getCount = 64
+    end
+
+    b.retrieveItems(b.matchItemName)
 end
 
 
