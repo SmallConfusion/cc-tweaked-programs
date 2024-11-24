@@ -9,7 +9,7 @@ function f.run()
 
         term.clear()
         term.setCursorPos(1, 1)
-        term.print("Enter a key to start. Press g to get, press s to search.")
+        print("Enter a key to start. Press g to get, press s to search.")
 
         if key == keys.g then
             f.get()
