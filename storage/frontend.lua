@@ -30,14 +30,17 @@ function f.get()
         count = tonumber(com[2])
     end
 
-    local got = b.retrieveItems(
-            function(item)
-                return item and item.name and (item.name == name or f.split(item.name, ":")[2] == name)
-            end, count)
+    local got = b.retrieveItems(itemMatch, count)
 
     term.setCursorPos(1, 2)
     term.write(got.." items got")
 end
+
+function itemMatch(item)
+    return item and item.name and
+            (item.name == name or f.split(item.name, ":")[2] == name)
+end
+
 
 function f.search()
     local list, com
