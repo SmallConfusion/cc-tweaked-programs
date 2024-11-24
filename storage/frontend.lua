@@ -73,6 +73,8 @@ function f.getCommand(commandName)
             com = com .. "_"
         elseif key == keys.space then
             com = com .. " "
+        elseif key == keys.color or key == keys.semiColon then
+            com = com .. ":"
         elseif key == keys.backspace then
             com = com:sub(1, #com - 1)
         end
