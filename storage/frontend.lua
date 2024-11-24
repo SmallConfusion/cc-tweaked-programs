@@ -9,6 +9,8 @@ function f.run()
 
         if key == keys.g then
             f.get()
+        elseif key == keys.s then
+            f.search()
         end
     end
 end
