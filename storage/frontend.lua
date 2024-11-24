@@ -69,7 +69,7 @@ function f.getCommand(commandName)
             com = com .. keyName
         elseif key >= 48 and key <= 57 then
             com = com .. tostring(key - 48)
-        elseif key == keys.underscore then
+        elseif key == keys.minus or key == keys.underscore then
             com = com .. "_"
         elseif key == keys.space then
             com = com .. " "
