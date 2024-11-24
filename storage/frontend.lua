@@ -13,7 +13,6 @@ function f.run()
     end
 end
 
-
 function f.get()
     term.clear()
     term.setCursorPos(1, 1)
@@ -27,14 +26,16 @@ function f.get()
     while key ~= keys.enter do
         local keyName = keys.getName(key)
 
-        if #keyName == 1 then
+        if #keyName == 1 and not gettingCount then
             term.write(keyName)
+            getName = getName .. keyName
 
-            if not gettingCount then
-                getName = getName..keyName
-            else
-                getCount = getCount..keyName
-            end
+        elseif gettingCount then
+            local number = key - 48
+            local numString = tostring(number)
+
+            term.write(numString)
+            getCount = getCount .. numString
         end
 
         if key == keys.space then
@@ -51,14 +52,12 @@ function f.get()
         getCount = 64
     end
 
-    b.retrieveItems(b.matchItemName)
+    b.retrieveItems(b.matchItemName, getCount)
 end
-
 
 function f.getKey()
     return os.pullEvent("key")
 end
-
 
 function f.cancel()
 
