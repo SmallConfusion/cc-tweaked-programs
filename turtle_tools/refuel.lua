@@ -1,9 +1,8 @@
-local amt = args[2]
+local amtStr = arg[2]
+local amt = turtle.getFuelLimit()
 
-if amt then
-    amt = tonumber(amt)
-else
-    amt = turtle.getFuelLimit()
+if amtStr then
+    amt = tonumber(amtStr)
 end
 
 while turtle.getFuelLevel() < amt do
