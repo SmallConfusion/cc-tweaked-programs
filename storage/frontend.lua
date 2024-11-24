@@ -47,7 +47,7 @@ function f.search()
     term.setCursorPos(1, 2)
 
     for name, count in pairs(list) do
-        if item:find(com) then
+        if name:find(com) then
             print(name.." "..count)
         end
     end
