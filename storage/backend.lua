@@ -137,13 +137,6 @@ function s.matchItemName(name)
     end
 end
 
-function s.run()
-    while true do
-        s.storeAll()
-        os.sleep(1)
-    end
-end
-
 function s.safeCall(call, a, b, c, d, e, f)
     local result = nil
     local success = false
