@@ -28,17 +28,17 @@ function f.get()
         local keyName = keys.getName(key)
 
         if #keyName == 1 then
-            os.write(keyName)
+            term.write(keyName)
 
             if not gettingCount then
-                getName[#getName + 1] = keyName
+                getName = getName..keyName
             else
-                getCount[#getCount + 1] = keyName
+                getCount = getCount..keyName
             end
         end
 
         if key == keys.space then
-            os.write(" ")
+            term.write(" ")
             gettingCount = true
         end
 
