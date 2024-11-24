@@ -62,18 +62,19 @@ function s.retrieveItems(itemMatch, count)
             if itemMatch(item) then
                 local toName = peripheral.getName(s.outChest)
                 local all_transferred = false
+                local ic = item.count
 
                 while not all_transferred do
-                    local ic = item.count
                     local transferred = s.safeCall(chest.pushItems, toName, i, count)
                     total = total + transferred
                     count = count - transferred
+                    ic = ic - transferred
 
                     if count <= 0 then
                         return total
                     end
 
-                    all_transferred = ic == transferred
+                    all_transferred = ic == 0
 
                     if not all_transferred then
                         os.sleep(0.5)
