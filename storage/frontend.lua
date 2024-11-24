@@ -7,6 +7,10 @@ function f.run()
     while true do
         local _, key, _ = f.getKey()
 
+        term.clear()
+        term.setCursorPos(1, 1)
+        term.print("Enter a key to start. Press g to get, press s to search.")
+
         if key == keys.g then
             f.get()
         elseif key == keys.s then
@@ -40,15 +44,11 @@ function f.search()
         function() com = f.getCommand("Search: ") end
     )
 
-    term.clear()
-
-    local lineNumber = 1
+    term.setCursorPos(1, 2)
 
     for name, count in pairs(list) do
         if item:find(com) then
-            term.setCursorPos(1, lineNumber)
-            term.write(name.." "..count)
-            lineNumber = lineNumber + 1
+            print(name.." "..count)
         end
     end
 end
