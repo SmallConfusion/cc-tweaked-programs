@@ -15,7 +15,7 @@ end
 
 function f.get()
     local com = f.split(f.getCommand("Get: "))
-    
+
     local name = com[1]
 
     local count = 64
@@ -25,6 +25,27 @@ function f.get()
     end
 
     b.retrieveItems(b.matchItemName(name), count)
+end
+
+function f.search()
+    local list, com
+
+    parallel.waitForAll(
+        function() list = b.list() end,
+        function() com = f.getCommand("Search: ") end
+    )
+
+    term.clear()
+
+    local lineNumber = 1
+
+    for name, count in pairs(list) do
+        if item:find(com) then
+            term.setCursorPos(1, lineNumber)
+            term.write(name.." "..count)
+            lineNumber = lineNumber + 1
+        end
+    end
 end
 
 ---@param commandName string
@@ -81,7 +102,7 @@ function f.split(s, delim)
 
     local t = {}
 
-    for str in s:gmatch("([^"..delim.."]+)") do
+    for str in s:gmatch("([^" .. delim .. "]+)") do
         t[#t + 1] = str
     end
 
