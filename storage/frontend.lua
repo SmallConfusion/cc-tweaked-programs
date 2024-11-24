@@ -14,10 +14,15 @@ function f.run()
 end
 
 function f.get()
-    local com = f.split(f.getCommand())
+    local com = f.split(f.getCommand("Get: "))
     
     local name = com[1]
-    local count = tonumber(com[2])
+
+    local count = 64
+
+    if com[2] then
+        count = tonumber(com[2])
+    end
 
     b.retrieveItems(b.matchItemName(name), count)
 end
@@ -70,8 +75,8 @@ end
 ---@param delim string
 ---@return table
 function f.split(s, delim)
-    if sep == "nil" then
-        sep = "%s"
+    if not delim then
+        delim = "%s"
     end
 
     local t = {}
