@@ -82,7 +82,7 @@ function miner.doReturnTrip()
         end
 
         print("Ran out of fuel")
-        os.exit()
+        exit()
     end
 end
 
