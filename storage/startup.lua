@@ -1,1 +1,1 @@
-local b = require("storage.backend")
+require("storage")
