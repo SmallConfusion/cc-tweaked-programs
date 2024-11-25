@@ -23,6 +23,8 @@ function miner.mine()
             miner.tunnel(vector.new(-1, 0, 0))
         end
     end
+
+    miner.home()
 end
 
 ---@param dir table
@@ -31,7 +33,7 @@ function miner.tunnel(dir)
 
     miner.doReturnTrip()
 
----@diagnostic disable-next-line: param-type-mismatch
+    ---@diagnostic disable-next-line: param-type-mismatch
     miner.runWithAllDirs(miner.mineVein, -dir)
 end
 
@@ -41,16 +43,16 @@ function miner.mineVein(dir)
 
     if not success then print(block) end
 
----@diagnostic disable-next-line: param-type-mismatch
+    ---@diagnostic disable-next-line: param-type-mismatch
     if miner.blockMatch(block) then
         miner.digMove(dir)
 
         miner.doReturnTrip()
 
----@diagnostic disable-next-line: param-type-mismatch
+        ---@diagnostic disable-next-line: param-type-mismatch
         miner.runWithAllDirs(miner.mineVein, -dir)
 
----@diagnostic disable-next-line: param-type-mismatch
+        ---@diagnostic disable-next-line: param-type-mismatch
         t.move(-dir)
     end
 end
@@ -61,33 +63,36 @@ function miner.doReturnTrip()
     end
 
     if turtle.getFuelLevel() < 400 then
-        while t.pos.y < 0 do
-            miner.digMove(vector.new(0, 1, 0))
-        end
-
-        while t.pos.y > 0 do
-            miner.digMove(vector.new(0, -1, 0))
-        end
-
-        while t.pos.x < 0 do
-            miner.digMove(vector.new(1, 0, 0))
-        end
-
-        while t.pos.x > 0 do
-            miner.digMove(vector.new(-1, 0, 0))
-        end
-
-        while t.pos.z < 0 do
-            miner.digMove(vector.new(0, 0, 1))
-        end
-
-        while t.pos.z > 0 do
-            miner.digMove(vector.new(0, 0, -1))
-        end
-
-        print("Ran out of fuel")
-        exit()
+        miner.home()
     end
+end
+
+function miner.home()
+    while t.pos.y < 0 do
+        miner.digMove(vector.new(0, 1, 0))
+    end
+
+    while t.pos.y > 0 do
+        miner.digMove(vector.new(0, -1, 0))
+    end
+
+    while t.pos.x < 0 do
+        miner.digMove(vector.new(1, 0, 0))
+    end
+
+    while t.pos.x > 0 do
+        miner.digMove(vector.new(-1, 0, 0))
+    end
+
+    while t.pos.z < 0 do
+        miner.digMove(vector.new(0, 0, 1))
+    end
+
+    while t.pos.z > 0 do
+        miner.digMove(vector.new(0, 0, -1))
+    end
+
+    exit()
 end
 
 ---@param fn function
