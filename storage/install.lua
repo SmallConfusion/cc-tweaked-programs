@@ -11,4 +11,8 @@ end
 dlf("init.lua", "storage/init.lua")
 dlf("backend.lua", "storage/backend.lua")
 dlf("frontend.lua", "storage/frontend.lua")
+dlf("ui/init.lua", "storage/ui/init.lua")
+dlf("ui/text.lua", "storage/ui/text.lua")
+dlf("ui/rect.lua", "storage/ui/rect.lua")
+dlf("ui/rect.lua", "storage/ui/screen.lua")
 dlf("startup.lua", "startup.lua")
