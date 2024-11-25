@@ -18,22 +18,25 @@ function Rect.new(x, y, w, h)
 end
 
 function Rect:writeText(text)
-    for i = 1, #text do
-        local char = text:sub(i, i)
+    local y = 0
 
-        local i0 = i - 1
+    while y < self.h and #text > 0 do
+        local s, e = text:find("\n")
 
-        local x = self.x + i0 % self.w
-        local localY = math.floor(i0 / self.w)
+        if s and e then
+            local before = text:sub(1, s - 1)
 
-        if localY >= self.h then
+            term.setCursorPos(self.x, self.y + y)
+            term.write(before)
+
+            text = text:sub(e + 1, #text)
+        else
+            term.setCursorPos(self.x, self.y + y)
+            term.write(text)
             return
         end
 
-        local y = self.y + localY
-
-        term.setCursorPos(x, y)
-        term.write(char)
+        y = y + 1
     end
 end
 

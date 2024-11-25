@@ -13,11 +13,21 @@ function ui.loop()
         ---@diagnostic disable-next-line: undefined-field
         local _, key, _ = os.pullEvent("key")
 
-        ---@diagnostic disable-next-line: undefined-field
-        local _, character = os.pullEvent("char")
+        local character = ""
+
+        parallel.waitForAny(
+            ---@diagnostic disable-next-line: undefined-field
+            function() _, character = os.pullEvent("char") end,
+
+            ---@diagnostic disable-next-line: undefined-field
+            function() os.sleep(0.05) end
+        )
 
         ui.screen:keyInput(key)
-        ui.screen:charInput(character)
+
+        if character then
+            ui.screen:charInput(character)
+        end
 
         ui.screen:refresh()
 
