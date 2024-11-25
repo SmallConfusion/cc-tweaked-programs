@@ -64,21 +64,59 @@ function f.run()
     list:addCharCallback(listCallback)
     listCallback()
 
+    local itemToGetName = ""
+    local select = Screen.new()
+
     list:addKeyCallback(function(key)
         if key == keys.enter or key == keys.numPadEnter then
-            f.getItems(itemNames[arrow.selected])
+            itemToGetName = itemNames[arrow.selected]
+            mainScreen.visible = false
+            select.visible = true
         end
     end)
 
     mainScreen:addPart(list)
 
     ui.addPart(mainScreen)
-    ui.loop()
-end
 
----@param itemName string
-function f.getItems(itemName)
-    b.retrieveItems(function(item) return item.name == itemName end, 55)
+
+    -- Item select count
+    select.visible = false
+
+    select:addPart(Text.new(Rect.new(1, 1, 52, 1), "Count?"))
+
+    local count = Text.new(Rect.new(1, 2, 52, 1))
+
+    count:addCharCallback(function(char)
+        count.contents = count.contents .. char
+    end)
+
+    local done = false
+    count:addKeyCallback(function(key)
+        if key == keys.backspace then
+            count.contents = input.contents:sub(1, #input.contents - 1)
+        elseif key == keys.enter or key == keys.numPadEnter then
+            if not done then
+                done = true
+                return
+            end
+
+            done = false
+            select.visible = false
+            mainScreen.visible = true
+            b.retrieveItems(function(item) return item.name == itemToGetName end,
+                    (tonumber(count.contents) or 64))
+            
+            count.contents = ""
+        end
+    end)
+
+
+    select:addPart(count)
+
+    ui.addPart(select)
+
+    ui.loop()
 end
 
 ---@param str string

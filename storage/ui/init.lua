@@ -7,6 +7,7 @@ ui.lastInput = 0
 ui.timeout = 30000
 
 function ui.loop()
+    term.clear()
     ui.screen:refresh()
 
     while true do
@@ -16,7 +17,7 @@ function ui.loop()
         local character = ""
 
         parallel.waitForAny(
-            ---@diagnostic disable-next-line: undefined-field
+        ---@diagnostic disable-next-line: undefined-field
             function() _, character = os.pullEvent("char") end,
 
             ---@diagnostic disable-next-line: undefined-field
@@ -29,6 +30,7 @@ function ui.loop()
             ui.screen:charInput(character)
         end
 
+        term.clear()
         ui.screen:refresh()
 
         ---@diagnostic disable-next-line: undefined-field

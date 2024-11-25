@@ -5,12 +5,15 @@ function Screen.new()
     local t = setmetatable({}, { __index = Screen })
 
     t.parts = {}
+    t.visible = true
 
     return t
 end
 
 function Screen:refresh()
-    term.clear()
+    if not self.visible then
+        return
+    end
 
     for _, part in pairs(self.parts) do
         part:refresh()
@@ -24,6 +27,10 @@ end
 
 
 function Screen:keyInput(key)
+    if not self.visible then
+        return
+    end
+
     for _, part in pairs(self.parts) do
         if part.keyInput then
             part:keyInput(key)
@@ -33,6 +40,10 @@ end
 
 
 function Screen:charInput(char)
+    if not self.visible then
+        return
+    end
+
     for _, part in pairs(self.parts) do
         if part.charInput then
             part:charInput(char)
