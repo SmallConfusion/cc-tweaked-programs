@@ -51,11 +51,18 @@ function f.run()
         itemNames = {}
         local text = ""
 
-        for itemName, count in pairs(b.list()) do
+        local blist = b.list()
+
+        for itemName, count in pairs(blist) do
             if f.match(itemName, input.contents) then
-                text = text .. itemName .. " " .. count .. "\n"
                 itemNames[#itemNames + 1] = itemName
             end
+        end
+
+        table.sort(itemNames)
+
+        for _, name in pairs(itemNames) do
+            text = text .. name .. " " .. blist[name] .. "\n"
         end
 
         list.contents = text

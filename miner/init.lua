@@ -2,11 +2,11 @@ local t = require("miner.tracked_movement")
 
 local miner = {}
 
-miner.size_z = 100
-miner.size_x = 100
+miner.size_z = 80
+miner.size_x = 80
 
 function miner.mine()
-    for i = 1, math.ceil(miner.size_x / 10) do
+    for i = 1, math.floor(miner.size_x / 10) do
         for z = 1, miner.size_z do
             miner.tunnel(vector.new(0, 0, -1))
         end
