@@ -31,7 +31,7 @@ end
 function s.registerChests()
     local inChests = settings.get("storage.input")
 
-    for chest in inChests:gmatch("[^%s]*") do
+    for chest in inChests:gmatch("[^%s]+") do
         s.inChests[#s.inChests + 1] = chest
     end
 
