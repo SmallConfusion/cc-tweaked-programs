@@ -1,6 +1,6 @@
 local s = {}
 
-s.inChest = ""
+s.inChests = {}
 s.outChest = ""
 
 s.heap = {}
@@ -29,12 +29,27 @@ end
 
 --- Sets the chest names and fills the heap with the chests
 function s.registerChests()
-    s.inChest = settings.get("storage.input")
+    local inChests = settings.get("storage.input")
+
+    for chest in inChests:gmatch("(%w+:%w+)") do
+        s.inChests[#s.inChests + 1] = chest
+    end
+
     s.outChest = settings.get("storage.output")
 
     s.heap = { peripheral.find("inventory", function(name, chest)
-        return name ~= s.inChest and name ~= s.outChest
+        return not s.hasValue(s.inChests, name) and name ~= s.outChest
     end) }
+end
+
+function s.hasValue(arr, value)
+    for i, v in pairs(arr) do
+        if value == v then
+            return true
+        end
+    end
+
+    return false
 end
 
 --- Refreshes the cache
@@ -66,10 +81,6 @@ end
 ---@param fromName string | nil
 function s.storeItems(fromSlot, fromName)
     s.cacheOutdated = true
-
-    if not fromName then
-        fromName = s.inChest
-    end
 
     local storeItem = s.safeCall(peripheral.call, fromName, "getItemDetail", fromSlot)
     local remainingToStore = storeItem.count
@@ -150,8 +161,10 @@ end
 
 --- Stores everything in the input chest
 function s.storeAll()
-    for i, _ in pairs(s.safeCall(peripheral.call, s.inChest, "list")) do
-        s.storeItems(i)
+    for _, chest in pairs(s.inChests) do
+        for i, _ in pairs(s.safeCall(peripheral.call, chest, "list")) do
+            s.storeItems(i, chest)
+        end
     end
 end
 
