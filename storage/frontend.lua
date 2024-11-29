@@ -110,8 +110,8 @@ function f.run()
 
             local itemCount
 
-            if count.contents.sub(#count.contents, #count.contents) == "s" then
-                itemCount = tonumber(count.contents.sub(1, #count.contents - 1)) * 64 or 64
+            if count.contents:sub(#count.contents, #count.contents) == "s" then
+                itemCount = tonumber(count.contents:sub(1, #count.contents - 1)) * 64 or 64
             else
                 itemCount = tonumber(count.contents) or 64
             end
