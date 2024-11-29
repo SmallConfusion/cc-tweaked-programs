@@ -26,15 +26,18 @@ function f.run()
 
     mainScreen:addPart(input)
 
-    -- Arrow
-    local arrow = Text.new(Rect.new(1, 3, 1, 1), ">")
+    local itemNames = {}
 
+    local arrow = Text.new(Rect.new(1, 3, 1, 1), ">")
+    local list = Text.new(Rect.new(3, 3, 52, 17))
+
+    -- Arrow
     arrow.selected = 1
     arrow:addKeyCallback(function(key)
         if key == keys.up then
             arrow.selected = math.max(arrow.selected - 1, 1)
         elseif key == keys.down then
-            arrow.selected = math.min(arrow.selected + 1, 17)
+            arrow.selected = math.min(arrow.selected + 1, math.min(#itemNames, 17))
         end
 
         arrow.rect.y = 2 + arrow.selected
@@ -43,9 +46,6 @@ function f.run()
     mainScreen:addPart(arrow)
 
     -- List
-    local list = Text.new(Rect.new(3, 3, 52, 17))
-
-    local itemNames = {}
 
     local function listCallback()
         itemNames = {}
@@ -101,19 +101,26 @@ function f.run()
     local done = false
     count:addKeyCallback(function(key)
         if key == keys.backspace then
-            count.contents = input.contents:sub(1, #input.contents - 1)
+            count.contents = count.contents:sub(1, #count.contents - 1)
         elseif key == keys.enter or key == keys.numPadEnter then
             if not done then
                 done = true
                 return
             end
 
+            local itemCount
+
+            if count.contents.sub(#count.contents, #count.contents) == "s" then
+                itemCount = tonumber(count.contents.sub(1, #count.contents - 1)) * 64 or 64
+            else
+                itemCount = tonumber(count.contents) or 64
+            end
+
             done = false
             select.visible = false
             mainScreen.visible = true
-            b.retrieveItems(function(item) return item.name == itemToGetName end,
-                    (tonumber(count.contents) or 64))
-            
+            b.retrieveItems(function(item) return item.name == itemToGetName end, itemCount)
+
             count.contents = ""
         end
     end)

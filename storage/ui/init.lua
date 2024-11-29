@@ -45,7 +45,7 @@ end
 ---@return boolean
 function ui.isIdle()
     ---@diagnostic disable-next-line: undefined-field
-    return os.epoch("utc") - ui.timeout > ui.timeout
+    return os.epoch("utc") - ui.lastInput > ui.timeout
 end
 
 return ui
