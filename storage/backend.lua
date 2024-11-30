@@ -161,12 +161,15 @@ end
 
 function s.getFullness()
     s.refreshCache()
-    local total_size = #s.cache * 54
     local used_size = 0
+    local chest_count = 0
 
     for chest, items in pairs(s.cache) do
+        chest_count = chest_count + 1
         used_size = used_size + #items
     end
+
+    local total_size = chest_count * 54
 
     print("Total size: " .. total_size .. " slots, " .. #s.cache .. " chests.")
     print("Used: " .. used_size .. " slots, " .. math.ceil(used_size / 54) .. " chests.")
