@@ -171,7 +171,7 @@ function s.getFullness()
 
     local total_size = chest_count * 54
 
-    print("Total size: " .. total_size .. " slots, " .. #s.cache .. " chests.")
+    print("Total size: " .. total_size .. " slots, " .. chest_count .. " chests.")
     print("Used: " .. used_size .. " slots, " .. math.ceil(used_size / 54) .. " chests.")
     print("Fullness: " .. used_size / total_size * 100.0 .. "%")
 end
