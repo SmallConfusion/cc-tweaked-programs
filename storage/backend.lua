@@ -173,7 +173,7 @@ function s.getFullness()
 
     print("Total size: " .. total_size .. " slots, " .. #s.cache .. " chests.")
     print("Used: " .. used_size .. " slots, " .. math.ceil(used_size / 54) .. " chests.")
-    print("Fullness: " .. total_size / used_size * 100.0)
+    print("Fullness: " .. used_size / total_size * 100.0 .. "%")
 end
 
 --- Stores everything in the input chest
