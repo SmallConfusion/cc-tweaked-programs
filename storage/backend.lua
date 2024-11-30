@@ -159,6 +159,20 @@ function s.list()
     return t
 end
 
+function s.getFullness()
+    s.refreshCache()
+    local total_size = #s.cache * 54
+    local used_size = 0
+
+    for chest, items in pairs(s.cache) do
+        used_size = used_size + #items
+    end
+
+    print("Total size: " .. total_size .. " slots, " .. #s.cache .. " chests.")
+    print("Used: " .. used_size .. " slots, " .. math.ceil(used_size / 54) .. " chests.")
+    print("Fullness: " .. total_size / used_size * 100.0)
+end
+
 --- Stores everything in the input chest
 function s.storeAll()
     for _, chest in pairs(s.inChests) do
