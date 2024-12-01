@@ -128,8 +128,14 @@ end
 function s.chestHasSpaceFor(chestName, checkItem)
     local list = s.cache[chestName]
 
+    local count = 0
+
+    for _, _ in pairs(list) do
+        count = count + 1
+    end
+
     -- HACK: Assumes all chests attached are double chests
-    if #list < 54 then
+    if count < 54 then
         return true
     end
 
