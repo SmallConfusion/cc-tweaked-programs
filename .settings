@@ -1,0 +1,5 @@
+{
+  [ "storage.output" ] = "minecraft:chest_31",
+  [ "storage.input" ] = "minecraft:chest_30",
+  [ "storage.wireless" ] = "minecraft:chest_32",
+}

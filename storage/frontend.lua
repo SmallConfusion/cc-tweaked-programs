@@ -78,11 +78,13 @@ function f.run()
         table.sort(itemNames)
 
         for _, name in pairs(itemNames) do
+            local displayName = name
+
             if pocket then
-                name = name:match(":(*)$")
+                displayName = name:match(":(*)$")
             end
 
-            text = text .. name .. " " .. blist[name] .. "\n"
+            text = text .. displayName .. " " .. blist[name] .. "\n"
         end
 
         list.contents = text
