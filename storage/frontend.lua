@@ -81,7 +81,7 @@ function f.run()
             local displayName = name
 
             if pocket then
-                displayName = name:match(":(*)$")
+                displayName = name:match("([^:]+)$")
             end
 
             text = text .. displayName .. " " .. blist[name] .. "\n"
