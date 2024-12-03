@@ -1,4 +1,3 @@
-local b = require("storage.backend")
 local ui = require("storage.ui")
 local Text = require("storage.ui.text")
 local Rect = require("storage.ui.rect")
@@ -7,6 +6,21 @@ local Screen = require("storage.ui.screen")
 local f = {}
 
 f.isIdle = ui.isIdle
+
+
+local retrieveItems
+local listFunc
+
+if pocket then
+    local w = require("storage.wireless")
+    retrieveItems = w.retrieveItems
+    listFunc = w.list
+else
+    local b = require("storage.backend")
+    retrieveItems = b.retrieveItems
+    listFunc = b.list
+end
+
 
 function f.run()
     local mainScreen = Screen.new()
@@ -47,11 +61,11 @@ function f.run()
 
     -- List
 
+    local blist = listFunc()
+
     local function listCallback()
         itemNames = {}
         local text = ""
-
-        local blist = b.list()
 
         for itemName, count in pairs(blist) do
             if f.match(itemName, input.contents) then
@@ -119,7 +133,7 @@ function f.run()
             done = false
             select.visible = false
             mainScreen.visible = true
-            b.retrieveItems(function(item) return item.name == itemToGetName end, itemCount)
+            retrieveItems(function(item) return item.name == itemToGetName end, itemCount)
 
             count.contents = ""
         end
@@ -130,7 +144,12 @@ function f.run()
 
     ui.addPart(select)
 
-    ui.loop()
+    parallel.waitForAny(ui.loop, function()
+        while true do
+            blist = listFunc()
+            os.sleep(20)
+        end
+    end)
 end
 
 ---@param str string

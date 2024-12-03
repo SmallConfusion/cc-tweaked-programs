@@ -13,4 +13,8 @@ local function runStore()
     end
 end
 
-parallel.waitForAny(runStore, f.run)
+if pocket then
+    f.run()
+else
+    parallel.waitForAny(runStore, f.run)
+end
