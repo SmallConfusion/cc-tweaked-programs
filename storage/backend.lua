@@ -140,7 +140,7 @@ function s.chestHasSpaceFor(chestName, checkItem)
     end
 
     for i, cacheItem in pairs(list) do
-        if checkItem.name == cacheItem.name and checkItem.count < checkItem.maxCount then
+        if checkItem.name == cacheItem.name and cacheItem.count < checkItem.maxCount then
             return true
         end
     end
