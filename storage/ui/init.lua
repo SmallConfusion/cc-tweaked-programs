@@ -7,8 +7,7 @@ ui.lastInput = 0
 ui.timeout = 30000
 
 function ui.loop()
-    term.clear()
-    ui.screen:refresh()
+    ui.refresh()
 
     while true do
         ---@diagnostic disable-next-line: undefined-field
@@ -40,6 +39,11 @@ end
 
 function ui.addPart(part)
     ui.screen:addPart(part)
+end
+
+function ui.refresh()
+    term.clear()
+    ui.screen:refresh()
 end
 
 ---@return boolean

@@ -50,19 +50,18 @@ function s.runWireless()
         while true do
             local id, message = rednet.receive()
 
-            if message and id then
+            if type(message) == "string" then
                 if message:sub(1, 1) == "l" then
                     rednet.send(id, s.list())
                 elseif message:sub(1, 1) == "g" then
-                    local count = tonumber(s:match("(%w+)$"))
-                    local name = s:match("[^%s][^%s]+")
+                    local count = tonumber(message:match("(%w+)$"))
+                    local name = message:match("%s+(%S+)")
 
                     if count and name then
-                        s.retrieveItems(function(item) return item.name == name end, count,
+                        s.retrieveItems(name, count,
                             settings.get("storage.wireless"))
                     end
                 end
-
             end
         end
     end
@@ -139,11 +138,11 @@ function s.storeItems(fromSlot, fromName)
 end
 
 --- Retrieves items
----@param getName function
+---@param toGetName string
 ---@param count integer
 ---@param to string
 ---@return integer gotcount
-function s.retrieveItems(matchFunc, count, to)
+function s.retrieveItems(toGetName, count, to)
     if not to then
         to = s.outChest
     end
@@ -153,8 +152,8 @@ function s.retrieveItems(matchFunc, count, to)
 
     for chest, items in pairs(s.cache) do
         for slot, item in pairs(items) do
-            if item.name == matchFunc then
-                local tfCount = s.safeCall(peripheral.call, chest, "pushItems", s.outChest, slot, remainingToGet)
+            if item.name == toGetName then
+                local tfCount = s.safeCall(peripheral.call, chest, "pushItems", to, slot, remainingToGet)
                 remainingToGet = remainingToGet - tfCount
 
                 if remainingToGet <= 0 then

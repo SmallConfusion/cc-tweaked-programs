@@ -78,6 +78,10 @@ function f.run()
         table.sort(itemNames)
 
         for _, name in pairs(itemNames) do
+            if pocket then
+                name = name:match(":(*)$")
+            end
+
             text = text .. name .. " " .. blist[name] .. "\n"
         end
 
@@ -149,7 +153,7 @@ function f.run()
     parallel.waitForAny(ui.loop, function()
         while true do
             blist = listFunc()
-            os.sleep(20)
+            os.sleep(0.5)
         end
     end)
 end
