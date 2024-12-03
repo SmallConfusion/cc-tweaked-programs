@@ -146,20 +146,12 @@ function f.run()
 
     ui.addPart(select)
 
-    if pocket then
-        parallel.waitForAny(ui.loop, rednet.run, function()
-            while true do
-                blist = listFunc()
-                os.sleep(20)
-            end
-        end)
-    else
-        parallel.waitForAny(ui.loop, ui.loop, function()
-            while true do
-                blist = listFunc()
-                os.sleep(20)
-            end
-        end)
+    parallel.waitForAny(ui.loop, function()
+        while true do
+            blist = listFunc()
+            os.sleep(20)
+        end
+    end)
 end
 
 ---@param str string

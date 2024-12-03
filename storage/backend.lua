@@ -38,7 +38,7 @@ function s.init()
         s.modem = peripheral.getName(modem)
 
         rednet.open(s.modem)
-        rednet.host("storage", "storage")
+        rednet.host("storage", "storageHost")
     end
 
     s.registerChests()
@@ -47,27 +47,22 @@ end
 
 function s.runWireless()
     if s.modem then
-        rednet.run()
-
-
         while true do
             local id, message = rednet.receive()
 
-            local res
+            if message and id then
+                if message:sub(1, 1) == "l" then
+                    rednet.send(id, s.list())
+                elseif message:sub(1, 1) == "g" then
+                    local count = tonumber(s:match("(%w+)$"))
+                    local name = s:match("[^%s][^%s]+")
 
-            if message.sub(1, 1) == "l" then
-                res = s.list()
-            elseif message.sub(1, 1) == "g" then
-                local count = tonumber(s:match("(%w+)$"))
-                local name = s:match("[^%s][^%s]+")
-
-                if count and name then
-                    s.retrieveItems(function(item) return item.name == name end, count, settings.get("storage.wireless"))
+                    if count and name then
+                        s.retrieveItems(function(item) return item.name == name end, count,
+                            settings.get("storage.wireless"))
+                    end
                 end
-            end
 
-            if res then
-                rednet.send(id, res)
             end
         end
     end

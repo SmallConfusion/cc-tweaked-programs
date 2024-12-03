@@ -6,10 +6,8 @@ w.storageSystemId = 0
 
 function w.init()
     rednet.open("back")
-    w.storageSystemId = rednet.lookup("storage", "storage")
+    w.storageSystemId = rednet.lookup("storage", "storageHost")
 end
-
-
 
 function w.list()
     rednet.send(w.storageSystemId, "l")
@@ -18,7 +16,7 @@ function w.list()
 end
 
 function w.retrieveItems(getName, count)
-    rednet.send(w.storageSystemId, "g "..getName.." "..count)
+    rednet.send(w.storageSystemId, "g " .. getName .. " " .. count)
 end
 
 return w
