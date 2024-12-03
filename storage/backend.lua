@@ -32,10 +32,12 @@ function s.init()
         exit()
     end
 
-    local modem = peripheral.find("modem")
+    local modem = peripheral.find("modem", function(name, modem)
+        return modem.isWireless()
+    end)
 
     if modem then
-        s.modem = peripheral.getName(modem)
+        s.modem = "top"
 
         rednet.open(s.modem)
         rednet.host("storage", "storageHost")
