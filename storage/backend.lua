@@ -16,6 +16,9 @@ function s.init()
     settings.define("storage.output", {
         default = "output_name"
     })
+    settings.define("storage.wireless", {
+        default = "wireless_output_name"
+    })
 
     if not settings.get("storage.input") then
         print("set settings")
@@ -23,8 +26,51 @@ function s.init()
         exit()
     end
 
+    if not settings.get("storage.input") then
+        print("set settings")
+        settings.save()
+        exit()
+    end
+
+    local modem = peripheral.find("modem")
+
+    if modem then
+        s.modem = peripheral.getName(modem)
+
+        rednet.open(s.modem)
+        rednet.host("storage", "storage")
+    end
+
     s.registerChests()
     s.refreshCache()
+end
+
+function s.runWireless()
+    if s.modem then
+        rednet.run()
+
+
+        while true do
+            local id, message = rednet.receive()
+
+            local res
+
+            if message.sub(1, 1) == "l" then
+                res = s.list()
+            elseif message.sub(1, 1) == "g" then
+                local count = tonumber(s:match("(%w+)$"))
+                local name = s:match("[^%s][^%s]+")
+
+                if count and name then
+                    s.retrieveItems(function(item) return item.name == name end, count, settings.get("storage.wireless"))
+                end
+            end
+
+            if res then
+                rednet.send(id, res)
+            end
+        end
+    end
 end
 
 --- Sets the chest names and fills the heap with the chests
@@ -98,16 +144,21 @@ function s.storeItems(fromSlot, fromName)
 end
 
 --- Retrieves items
----@param matchFunc function
+---@param getName function
 ---@param count integer
+---@param to string
 ---@return integer gotcount
-function s.retrieveItems(matchFunc, count)
+function s.retrieveItems(matchFunc, count, to)
+    if not to then
+        to = s.outChest
+    end
+
     s.cacheOutdated = true
     local remainingToGet = count
 
     for chest, items in pairs(s.cache) do
         for slot, item in pairs(items) do
-            if matchFunc(item) then
+            if item.name == matchFunc then
                 local tfCount = s.safeCall(peripheral.call, chest, "pushItems", s.outChest, slot, remainingToGet)
                 remainingToGet = remainingToGet - tfCount
 

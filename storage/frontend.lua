@@ -13,6 +13,8 @@ local listFunc
 
 if pocket then
     local w = require("storage.wireless")
+    w.init()
+
     retrieveItems = w.retrieveItems
     listFunc = w.list
 else
@@ -133,7 +135,7 @@ function f.run()
             done = false
             select.visible = false
             mainScreen.visible = true
-            retrieveItems(function(item) return item.name == itemToGetName end, itemCount)
+            retrieveItems(itemToGetName, itemCount)
 
             count.contents = ""
         end
@@ -144,12 +146,20 @@ function f.run()
 
     ui.addPart(select)
 
-    parallel.waitForAny(ui.loop, function()
-        while true do
-            blist = listFunc()
-            os.sleep(20)
-        end
-    end)
+    if pocket then
+        parallel.waitForAny(ui.loop, rednet.run, function()
+            while true do
+                blist = listFunc()
+                os.sleep(20)
+            end
+        end)
+    else
+        parallel.waitForAny(ui.loop, ui.loop, function()
+            while true do
+                blist = listFunc()
+                os.sleep(20)
+            end
+        end)
 end
 
 ---@param str string

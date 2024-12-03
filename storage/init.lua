@@ -16,5 +16,5 @@ end
 if pocket then
     f.run()
 else
-    parallel.waitForAny(runStore, f.run)
+    parallel.waitForAll(runStore, f.run, b.runWireless)
 end
