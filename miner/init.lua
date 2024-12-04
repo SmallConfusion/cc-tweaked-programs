@@ -117,12 +117,12 @@ end
 ---@return boolean | nil
 function miner.blockMatch(block)
     return block and block.name and (
-        block.name:find("_ore") or
+        (block.name:find("_ore") and not block.name:find("iron") and not block.name:find("redstone")) or
         block.name:find("copper") or
         block.name:find("diamond") or
         block.name:find("coal") or
-        block.name:find("redstone") or
-        block.name:find("iron") or
+        -- block.name:find("redstone") or
+        -- block.name:find("iron") or
         block.name:find("gold") or
         block.name:find("runic_") or
         block.name:find("acient_debris") or
