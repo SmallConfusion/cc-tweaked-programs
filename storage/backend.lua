@@ -5,6 +5,7 @@ s.outChest = ""
 
 s.heap = {}
 s.cache = {}
+s.maxSizes = {}
 
 s.cacheOutdated = true
 
@@ -80,8 +81,12 @@ function s.registerChests()
     s.outChest = settings.get("storage.output")
 
     s.heap = { peripheral.find("inventory", function(name, chest)
-        return not s.hasValue(s.inChests, name) and name ~= s.outChest
+        return not s.hasValue(s.inChests, name) and name ~= settings.get("storage.wireless") and name ~= s.outChest
     end) }
+
+    for i, chest in pairs(s.heap) do
+        s.maxSizes[peripheral.getName(chest)] = chest.size()
+    end
 end
 
 function s.hasValue(arr, value)
@@ -181,8 +186,7 @@ function s.chestHasSpaceFor(chestName, checkItem)
         count = count + 1
     end
 
-    -- HACK: Assumes all chests attached are double chests
-    if count < 54 then
+    if count < s.maxSizes[chestName] then
         return true
     end
 
